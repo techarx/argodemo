@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: helm-app
+  name: example-app
   namespace: argocd
 spec:
   project: default
@@ -9,16 +9,14 @@ spec:
     repoURL: https://github.com/techarx/argodemo.git
     targetRevision: HEAD
     path: app-helm
-    helm:
-      values: |
-        image:
-          tag: "1.16.0"
     directory:
       recurse: true
   destination:
     server: https://kubernetes.default.svc
-    namespace: example-app
+    namespace: app-helm
   syncPolicy:
     automated:
       prune: false
       selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
